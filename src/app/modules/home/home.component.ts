@@ -1,12 +1,14 @@
 import { AuthResponse } from 'src/app/models/interfaces/user/auth/AuthResponse';
-import { CookieService } from 'ngx-cookie-service';
-import { UserService } from './../../services/user/user.service';
 import { Component } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
 import { AuthRequest } from 'src/app/models/interfaces/user/auth/AuthRequest';
 import { SignupUserRequest } from 'src/app/models/interfaces/user/SignupUserRequest';
 import { SignupUserResponse } from 'src/app/models/interfaces/user/SignupUserResponse';
+
+import { FormBuilder, Validators } from '@angular/forms';
+import { UserService } from './../../services/user/user.service';
+import { CookieService } from 'ngx-cookie-service';
 import { MessageService } from 'primeng/api';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -31,7 +33,8 @@ export class HomeComponent {
     private formBuilder:FormBuilder,
     private userService:UserService,
     private cookieService:CookieService,
-    private mesageService:MessageService
+    private mesageService:MessageService,
+    private router:Router
   ) {}
 
   onSubmitLoginForm():void{
@@ -42,6 +45,7 @@ export class HomeComponent {
           if(response){
             this.cookieService.set("USER_INFO", response?.token);
             this.loginForm.reset()
+            this.router.navigate(["/dashboard"])
 
             this.mesageService.add({
               severity:'success',
