@@ -1,5 +1,5 @@
 import { AuthResponse } from 'src/app/models/interfaces/user/auth/AuthResponse';
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { AuthRequest } from 'src/app/models/interfaces/user/auth/AuthRequest';
 import { SignupUserRequest } from 'src/app/models/interfaces/user/SignupUserRequest';
 import { SignupUserResponse } from 'src/app/models/interfaces/user/SignupUserResponse';
@@ -16,7 +16,7 @@ import { Subject, takeUntil } from 'rxjs';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent {
+export class HomeComponent implements OnDestroy {
   private destroy$ = new Subject<void> ();
 
 
@@ -114,5 +114,9 @@ export class HomeComponent {
       }
   }
 
+  ngOnDestroy(): void {
+      this.destroy$.next();
+      this.destroy$.complete();
+  }
 }
 //console.log("Dados do formulario de criação de conta", this.singupForm.value);
