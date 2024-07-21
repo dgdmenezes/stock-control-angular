@@ -9,6 +9,7 @@ import { UserService } from './../../services/user/user.service';
 import { CookieService } from 'ngx-cookie-service';
 import { MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -16,6 +17,9 @@ import { Router } from '@angular/router';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent {
+  private destroy$ = new Subject<void> ();
+
+
   loginCard = true;
 
   loginForm = this.formBuilder.group({
@@ -40,6 +44,7 @@ export class HomeComponent {
   onSubmitLoginForm():void{
     if (this.loginForm.value && this.loginForm.valid){
       this.userService.authUser(this.loginForm.value as AuthRequest)
+      .pipe(takeUntil(this.destroy$))
       .subscribe({
         next:(response) =>{
           if(response){
@@ -77,6 +82,7 @@ export class HomeComponent {
   onSubmitSignupForm():void{
     if(this.singupForm.value && this.singupForm.valid){
     this.userService.signupUser(this.singupForm.value as SignupUserRequest)
+      .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (response) =>{
           if(response){
