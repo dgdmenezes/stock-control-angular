@@ -1,0 +1,41 @@
+<!-- FORMULARIO DE NOVO PRODUTO -->
+<div>
+  <form
+    [formGroup]="addProductForm"
+    (ngSubmit)="handleSubmitAddProduct()"
+  ></form>
+  <div class="card flex flex-column md:flex-column gap-3">
+    <!-- Nome do PRODUTO -->
+    <input pInputText placeholder="Nome" formControlName="name" />
+
+    <!-- CATEGORIA DO PRODUTO -->
+    <p-dropdown
+      styleClass="w-full"
+      [options]="categoriesData"
+      [(ngModel)]="selectedCategory"
+      optionLabel="name"
+      optionValue="id"
+      placeholder="Selecione uma cetegoria"
+      formControlName="category_id"
+    ></p-dropdown>
+
+    <!-- Preco do produto -->
+    <input pInputText placeholder="Preço" formControlName="price" />
+
+    <!-- Descrição do produto -->
+    <input pInputText placeholder="Descrição" formControlName="description" />
+
+    <!-- Quantidade do produto -->
+    <input pInputNumber placeholder="Quantidade" formControlName="amount" />
+
+    <div
+      class="flex flex-row justify-content-center align-content-center align-itens-center m-1"
+    ></div>
+    <p-button
+      [disabled]="!addProductForm.valid"
+      type="submit"
+      label="Concluir"
+    ></p-button>
+  </div>
+</div>
+<!-- FORMULARIO DE EDITAR PRODUTO -->
